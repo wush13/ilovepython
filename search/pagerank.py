@@ -8,13 +8,13 @@ def initialmatrix(n):
 def main(nodes_num):
 	weights = np.ones(nodes_num) 
 	x = initialmatrix(nodes_num)
-	x=x-np.diag(np.diag(x))  
+	x=x-np.diag(np.diag(x))  ## 对角清0
 	print(x)
-	x_normed = x / x.sum(axis=0)
+	x_normed = x / x.sum(axis=0)  ## 按行归一化
 	print(x_normed)
 	iteration = 1
 	while True:
-		new_weights = np.dot(x_normed,weights)
+		new_weights = np.dot(x_normed,weights)  ## 点乘
 		print("Iteration: "+ str(iteration))
 		print(new_weights)
 		if (new_weights - weights).max() <= 0.0001:
