@@ -1,12 +1,12 @@
 ﻿import numpy as np
-## initail degree matrix randomly
-
+## initail pts randomly
 def initialmatrix(n, m):
 	matrix = np.random.rand(n,m)
 	matrix = matrix * 100
 	print(matrix)
 	return matrix
 
+## calculate the distance between 2 points
 def calcdist(p1, p2):
 	dist = np.sqrt(np.sum(np.square(p1-p2)))
 	return dist
@@ -34,6 +34,7 @@ def kmeans(pts, k, maxiter):
 		last_center = row_rand
 		row_rand = 0 / row_rand
 		cluste_cnt = np.zeros(k)
+		##averge to update centers
 		for index in range(0, len(cluster_j)):
 			row_rand[cluster_j[index]] += pts[index]
 			cluste_cnt[cluster_j[index]] += 1
@@ -41,6 +42,7 @@ def kmeans(pts, k, maxiter):
 			row_rand[index] = row_rand[index]/cluste_cnt[index]
 		print("new center")
 		print(row_rand)
+		##if centers are not updated, finish the clustering
 		if((last_center==row_rand).all() == True):
 			print("cluster finished")
 			break
