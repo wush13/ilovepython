@@ -13,6 +13,7 @@ class Logistic:
         self.rate = rate 
         self.weights_x = np.random.rand(length)
         self.iteration_cnt = iteration_cnt
+    
     def sigmoid(self, e):
         return 1 / (1 + math.exp(-e))
 
@@ -22,22 +23,33 @@ class Logistic:
         value = 0.0
         for i in range(len(data_x)):
             value += float(data_x[i]) * float(self.weights_x[i])
+        print(value)
         return self.sigmoid(value)
 
-    def train_sd(self, instance_list):
+    def train_sgd(self, instance_list):
         for k in range(self.iteration_cnt):
-            gd = np.random.rand(len(self.weights_x))
             for instance in instance_list:
                 data = instance.data
                 label = instance.label
                 calculate_label = self.classify(data)
                 for j in range(len(data)):
-                    gd[j] =  self.rate * (float(calculate_label) - float(label)) * float(data[j])
+                    self.weights_x[j] +=  self.rate * (float(calculate_label) - float(label)) * float(data[j])
+            print("iteration " + str(k))
+            print(self.weights_x)    
+
+    def train_gd(self, instance_list):
+        gd = np.random.rand(len(self.weights_x))
+        for k in range(self.iteration_cnt):
+            for instance in instance_list:
+                data = instance.data
+                label = instance.label
+                calculate_label = self.classify(data)
+                for j in range(len(data)):
+                    gd[j] +=  self.rate * (float(calculate_label) - float(label)) * float(data[j])
             for j in range(len(data)):
                 self.weights_x[j] += gd[j] 
             print("iteration " + str(k))
             print(self.weights_x)    
-
 
 if __name__ == '__main__':
     logistic = Logistic(0.001, 6, 10)
@@ -46,4 +58,5 @@ if __name__ == '__main__':
     for instance in dataset.instance_list:
         print(instance.data)
         print(instance.label)
-    logistic.train_sd(dataset.instance_list)
+    logistic.train_gd(dataset.instance_list)
+   # logistic.train_sgd(dataset.instance_list)
